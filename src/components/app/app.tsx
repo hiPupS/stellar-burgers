@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { ConstructorPage, Feed, Profile } from '@pages';
+import { ConstructorPage, Feed, Profile, ProfileOrders } from '@pages';
 import { IngredientDetails } from '@components';
 import '../../index.css';
 import styles from './app.module.css';
@@ -69,6 +69,7 @@ const App = () => {
         />
         <Route path='/feed' element={<Feed />} />
         <Route path='/profile' element={<Profile />} />
+        <Route path='/profile/orders' element={<ProfileOrders />} />
       </Routes>
     </div>
   );
