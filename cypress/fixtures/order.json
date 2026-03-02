@@ -1,0 +1,19 @@
+{
+  "success": true,
+  "name": "Краторный метеоритный бургер",
+  "order": {
+    "_id": "123",
+    "status": "done",
+    "name": "Краторный метеоритный бургер",
+    "number": 12345,
+    "createdAt": "2024-01-01T12:00:00.000Z",
+    "updatedAt": "2024-01-01T12:00:00.000Z",
+    "owner": {
+      "name": "Test",
+      "email": "test@test.com",
+      "createdAt": "2024-01-01T12:00:00.000Z",
+      "updatedAt": "2024-01-01T12:00:00.000Z"
+    },
+    "price": 2000
+  }
+}
