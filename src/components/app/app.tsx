@@ -1,4 +1,5 @@
-import { ConstructorPage } from '@pages';
+import { Routes, Route } from 'react-router-dom';
+import { ConstructorPage, Feed, Profile } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
 
@@ -14,19 +15,32 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      {isIngredientsLoading ? (
-        <Preloader />
-      ) : error ? (
-        <div className={`${styles.error} text text_type_main-medium pt-4`}>
-          {error}
-        </div>
-      ) : ingredients.length > 0 ? (
-        <ConstructorPage />
-      ) : (
-        <div className={`${styles.title} text text_type_main-medium pt-4`}>
-          Нет игредиентов
-        </div>
-      )}
+      <Routes>
+        <Route
+          path='/'
+          element={
+            isIngredientsLoading ? (
+              <Preloader />
+            ) : error ? (
+              <div
+                className={`${styles.error} text text_type_main-medium pt-4`}
+              >
+                {error}
+              </div>
+            ) : ingredients.length > 0 ? (
+              <ConstructorPage />
+            ) : (
+              <div
+                className={`${styles.title} text text_type_main-medium pt-4`}
+              >
+                Нет игредиентов
+              </div>
+            )
+          }
+        />
+        <Route path='/feed' element={<Feed />} />
+        <Route path='/profile' element={<Profile />} />
+      </Routes>
     </div>
   );
 };
