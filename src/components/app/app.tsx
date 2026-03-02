@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ConstructorPage, Feed, Profile } from '@pages';
+import { IngredientDetails } from '@components';
 import '../../index.css';
 import styles from './app.module.css';
 
@@ -38,6 +39,25 @@ const App = () => {
               </div>
             ) : ingredients.length > 0 ? (
               <ConstructorPage />
+            ) : (
+              <div
+                className={`${styles.title} text text_type_main-medium pt-4`}
+              >
+                Нет ингредиентов
+              </div>
+            )
+          }
+        />
+        <Route
+          path='/ingredients/:id'
+          element={
+            isIngredientsLoading ? (
+              <Preloader />
+            ) : ingredients.length > 0 ? (
+              <>
+                <ConstructorPage />
+                <IngredientDetails />
+              </>
             ) : (
               <div
                 className={`${styles.title} text text_type_main-medium pt-4`}
