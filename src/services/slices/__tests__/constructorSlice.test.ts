@@ -69,10 +69,7 @@ describe('constructorSlice: редьюсер конструктора бурге
       ...mockMain,
       id: 'id-to-remove'
     };
-    let state = constructorReducer(
-      undefined,
-      addIngredient(ingredientWithId)
-    );
+    let state = constructorReducer(undefined, addIngredient(ingredientWithId));
     state = constructorReducer(state, removeIngredient('id-to-remove'));
     expect(state.ingredients).toHaveLength(0);
   });

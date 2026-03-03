@@ -6,10 +6,11 @@ export const selectIngredientsLoading = (state: RootState) =>
 export const selectIngredientsError = (state: RootState) =>
   state.ingredients.error;
 
-export const selectConstructor = (state: RootState) => state.constructor;
-export const selectConstructorBun = (state: RootState) => state.constructor.bun;
+export const selectConstructor = (state: RootState) => state.burgerConstructor;
+export const selectConstructorBun = (state: RootState) =>
+  state.burgerConstructor.bun;
 export const selectConstructorIngredients = (state: RootState) =>
-  state.constructor.ingredients;
+  state.burgerConstructor.ingredients;
 
 export const selectOrderModalData = (state: RootState) =>
   state.order.orderModalData;

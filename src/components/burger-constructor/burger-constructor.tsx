@@ -1,7 +1,11 @@
 import { FC, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/store';
-import { createOrder, clearOrderModal, removeIngredient } from '../../services/slices';
+import {
+  createOrder,
+  clearOrderModal,
+  removeIngredient
+} from '../../services/slices';
 import {
   selectConstructor,
   selectOrderModalData,

@@ -10,7 +10,7 @@ describe('rootReducer: настройка и работа хранилища', (
     expect(state).toHaveProperty('ingredients');
     expect(state).toHaveProperty('order');
     expect(state).toHaveProperty('feed');
-    expect(state).toHaveProperty('profileOrders');
+    expect(state).toHaveProperty('orders');
     expect(state.burgerConstructor).toEqual({
       bun: null,
       ingredients: []
@@ -22,7 +22,7 @@ describe('rootReducer: настройка и работа хранилища', (
     });
     expect(state.order).toEqual({
       orderModalData: null,
-      loading: false,
+      orderRequest: false,
       error: null
     });
     expect(state.feed).toEqual({
@@ -32,7 +32,7 @@ describe('rootReducer: настройка и работа хранилища', (
       loading: false,
       error: null
     });
-    expect(state.profileOrders).toEqual({
+    expect(state.orders).toEqual({
       orders: [],
       loading: false,
       error: null

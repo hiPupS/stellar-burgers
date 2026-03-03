@@ -12,8 +12,14 @@ const typeIs = (item: { type?: string }, type: string) =>
 
 export const BurgerIngredients: FC = () => {
   const ingredients = useSelector(selectIngredients);
-  const buns = useMemo(() => ingredients.filter((i) => typeIs(i, 'bun')), [ingredients]);
-  const mains = useMemo(() => ingredients.filter((i) => typeIs(i, 'main')), [ingredients]);
+  const buns = useMemo(
+    () => ingredients.filter((i) => typeIs(i, 'bun')),
+    [ingredients]
+  );
+  const mains = useMemo(
+    () => ingredients.filter((i) => typeIs(i, 'main')),
+    [ingredients]
+  );
   const sauces = useMemo(
     () => ingredients.filter((i) => typeIs(i, 'sauce') && !typeIs(i, 'bun')),
     [ingredients]

@@ -7,6 +7,13 @@
   width: 520px;
 }
 
+.img {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  object-fit: contain;
+}
+
 .nutritional_values {
   display: flex;
   justify-content: space-between;

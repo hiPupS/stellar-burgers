@@ -11,7 +11,7 @@ import {
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
-  constructor: constructorReducer,
+  burgerConstructor: constructorReducer,
   order: orderReducer,
   feed: feedReducer,
   orders: ordersReducer,
