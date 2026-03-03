@@ -3,7 +3,8 @@ import {
   addIngredient,
   removeIngredient,
   setBun,
-  clearConstructor
+  clearConstructor,
+  moveIngredient
 } from '../constructorSlice';
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 
@@ -89,5 +90,37 @@ describe('constructorSlice: редьюсер конструктора бурге
     state = constructorReducer(state, clearConstructor());
     expect(state.bun).toBeNull();
     expect(state.ingredients).toHaveLength(0);
+  });
+
+  it('moveIngredient меняет позицию начинки в списке', () => {
+    const ing1: TConstructorIngredient = { ...mockMain, id: 'id-1' };
+    const ing2: TConstructorIngredient = {
+      ...mockMain,
+      _id: 'main-2',
+      id: 'id-2'
+    };
+    const ing3: TConstructorIngredient = {
+      ...mockMain,
+      _id: 'main-3',
+      id: 'id-3'
+    };
+    let state = constructorReducer(undefined, addIngredient(ing1));
+    state = constructorReducer(state, addIngredient(ing2));
+    state = constructorReducer(state, addIngredient(ing3));
+    expect(state.ingredients.map((i) => i.id)).toEqual([
+      'id-1',
+      'id-2',
+      'id-3'
+    ]);
+
+    state = constructorReducer(
+      state,
+      moveIngredient({ fromIndex: 0, toIndex: 2 })
+    );
+    expect(state.ingredients.map((i) => i.id)).toEqual([
+      'id-2',
+      'id-3',
+      'id-1'
+    ]);
   });
 });

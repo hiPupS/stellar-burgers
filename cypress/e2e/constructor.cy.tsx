@@ -18,8 +18,9 @@ describe('Конструктор бургера', () => {
       cy.wait('@getIngredients');
 
       cy.contains('Добавить').first().click();
-      cy.get('[data-testid="burger-constructor"]').should('exist');
-      cy.contains('Краторная булка N-200i').should('exist');
+      cy.get('[data-testid="burger-constructor"]')
+        .should('exist')
+        .and('contain', 'Краторная булка N-200i');
     });
   });
 
@@ -33,13 +34,33 @@ describe('Конструктор бургера', () => {
       cy.contains('Детали ингредиента').should('exist');
     });
 
-    it('модальное окно закрывается при клике на кнопку закрытия или оверлей', () => {
+    it('модальное окно закрывается при клике на кнопку закрытия', () => {
       cy.visit('/');
       cy.wait('@getIngredients');
 
       cy.contains('Биокотлета из марсианской Магнолии').first().click();
       cy.get('[data-testid="modal"]').should('be.visible');
       cy.get('[data-testid="modal"]').find('button[type="button"]').click();
+      cy.get('[data-testid="modal"]').should('not.exist');
+    });
+
+    it('модальное окно закрывается при клике на оверлей', () => {
+      cy.visit('/');
+      cy.wait('@getIngredients');
+
+      cy.contains('Биокотлета из марсианской Магнолии').first().click();
+      cy.get('[data-testid="modal"]').should('be.visible');
+      cy.get('body').click(0, 0);
+      cy.get('[data-testid="modal"]').should('not.exist');
+    });
+
+    it('модальное окно закрывается при нажатии Escape', () => {
+      cy.visit('/');
+      cy.wait('@getIngredients');
+
+      cy.contains('Биокотлета из марсианской Магнолии').first().click();
+      cy.get('[data-testid="modal"]').should('be.visible');
+      cy.get('body').type('{esc}');
       cy.get('[data-testid="modal"]').should('not.exist');
     });
 
@@ -78,7 +99,11 @@ describe('Конструктор бургера', () => {
 
       cy.get('body').click(0, 0);
       cy.get('[data-testid="modal"]').should('not.exist');
-      cy.contains('Выберите булки').should('exist');
+
+      cy.get('[data-testid="burger-constructor"]').within(() => {
+        cy.contains('Выберите булки').should('exist');
+        cy.contains('Выберите начинку').should('exist');
+      });
 
       cy.clearAuthTokens();
     });
