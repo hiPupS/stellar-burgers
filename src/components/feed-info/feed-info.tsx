@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useSelector } from '../../services/store';
 import {
   selectFeedOrders,
@@ -18,11 +18,10 @@ export const FeedInfo: FC = () => {
   const orders = useSelector(selectFeedOrders);
   const total = useSelector(selectFeedTotal);
   const totalToday = useSelector(selectFeedTotalToday);
-  const feed = { total, totalToday };
 
-  const readyOrders = getOrders(orders, 'done');
-
-  const pendingOrders = getOrders(orders, 'pending');
+  const feed = useMemo(() => ({ total, totalToday }), [total, totalToday]);
+  const readyOrders = useMemo(() => getOrders(orders, 'done'), [orders]);
+  const pendingOrders = useMemo(() => getOrders(orders, 'pending'), [orders]);
 
   return (
     <FeedInfoUI

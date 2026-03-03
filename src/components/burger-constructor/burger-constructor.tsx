@@ -1,11 +1,7 @@
 import { FC, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/store';
-import {
-  createOrder,
-  clearOrderModal,
-  clearConstructor
-} from '../../services/slices';
+import { createOrder, clearOrderModal, removeIngredient } from '../../services/slices';
 import {
   selectConstructor,
   selectOrderModalData,
@@ -44,7 +40,10 @@ export const BurgerConstructor: FC = () => {
 
   const closeOrderModal = () => {
     dispatch(clearOrderModal());
-    dispatch(clearConstructor());
+  };
+
+  const handleRemoveIngredient = (id: string) => {
+    dispatch(removeIngredient(id));
   };
 
   const price = useMemo(
@@ -65,6 +64,7 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
+      onRemoveIngredient={handleRemoveIngredient}
     />
   );
 };

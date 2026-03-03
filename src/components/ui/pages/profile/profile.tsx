@@ -22,45 +22,49 @@ export const ProfileUI: FC<ProfileUIProps> = ({
     <form
       className={`mt-30 ${styles.form} ${commonStyles.form}`}
       onSubmit={handleSubmit}
+      autoComplete='off'
     >
       <>
         <div className='pb-6'>
           <Input
-            type={'text'}
-            placeholder={'Имя'}
+            type='text'
+            placeholder='Имя'
             onChange={handleInputChange}
             value={formValue.name}
-            name={'name'}
+            name='name'
             error={false}
-            errorText={''}
-            size={'default'}
-            icon={'EditIcon'}
+            errorText=''
+            size='default'
+            icon='EditIcon'
+            autoComplete='off'
           />
         </div>
         <div className='pb-6'>
           <Input
-            type={'email'}
-            placeholder={'E-mail'}
+            type='email'
+            placeholder='E-mail'
             onChange={handleInputChange}
             value={formValue.email}
-            name={'email'}
+            name='email'
             error={false}
-            errorText={''}
-            size={'default'}
-            icon={'EditIcon'}
+            errorText=''
+            size='default'
+            icon='EditIcon'
+            autoComplete='off'
           />
         </div>
         <div className='pb-6'>
           <Input
-            type={'password'}
-            placeholder={'Пароль'}
+            type='password'
+            placeholder='Пароль'
             onChange={handleInputChange}
             value={formValue.password}
-            name={'password'}
+            name='password'
             error={false}
-            errorText={''}
-            size={'default'}
-            icon={'EditIcon'}
+            errorText=''
+            size='default'
+            icon='EditIcon'
+            autoComplete='off'
           />
         </div>
         {isFormChanged && (

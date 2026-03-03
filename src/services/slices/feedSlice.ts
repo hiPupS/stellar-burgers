@@ -1,8 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeedsApi } from '@api';
-import { TOrder, TOrdersData } from '@utils-types';
+import { TOrder } from '@utils-types';
 
-type TFeedState = TOrdersData & {
+type TFeedState = {
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
   loading: boolean;
   error: string | null;
 };
@@ -23,7 +26,7 @@ export const fetchFeeds = createAsyncThunk(
       return data;
     } catch (err) {
       return rejectWithValue(
-        err instanceof Error ? err.message : 'Ошибка загрузки ленты'
+        err instanceof Error ? err.message : 'Ошибка загрузки ленты заказов'
       );
     }
   }

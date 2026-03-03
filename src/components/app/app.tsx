@@ -7,7 +7,6 @@ import {
   selectIngredientsLoading,
   selectIngredientsError
 } from '../../services/selectors';
-
 import {
   ConstructorPage,
   Feed,

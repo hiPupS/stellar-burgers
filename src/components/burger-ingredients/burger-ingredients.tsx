@@ -5,18 +5,17 @@ import { selectIngredients } from '../../services/selectors';
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 
+const typeIs = (item: { type?: string }, type: string) =>
+  String(item.type ?? '')
+    .trim()
+    .toLowerCase() === type;
+
 export const BurgerIngredients: FC = () => {
   const ingredients = useSelector(selectIngredients);
-  const buns = useMemo(
-    () => ingredients.filter((i) => i.type === 'bun'),
-    [ingredients]
-  );
-  const mains = useMemo(
-    () => ingredients.filter((i) => i.type === 'main'),
-    [ingredients]
-  );
+  const buns = useMemo(() => ingredients.filter((i) => typeIs(i, 'bun')), [ingredients]);
+  const mains = useMemo(() => ingredients.filter((i) => typeIs(i, 'main')), [ingredients]);
   const sauces = useMemo(
-    () => ingredients.filter((i) => i.type === 'sauce'),
+    () => ingredients.filter((i) => typeIs(i, 'sauce') && !typeIs(i, 'bun')),
     [ingredients]
   );
 
