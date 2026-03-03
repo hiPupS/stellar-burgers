@@ -1,14 +1,12 @@
 describe('Конструктор бургера', () => {
-  const API_URL = 'https://norma.education-services.ru/api';
-
   beforeEach(() => {
-    cy.intercept('GET', `${API_URL}/ingredients`, {
-      fixture: 'ingredients.json'
-    }).as('getIngredients');
-    cy.intercept('POST', `${API_URL}/orders`, {
-      fixture: 'order.json'
-    }).as('createOrder');
-    cy.intercept('GET', `${API_URL}/auth/user`, {
+    cy.intercept('GET', '**/ingredients', { fixture: 'ingredients.json' }).as(
+      'getIngredients'
+    );
+    cy.intercept('POST', '**/orders', { fixture: 'order.json' }).as(
+      'createOrder'
+    );
+    cy.intercept('GET', '**/auth/user', {
       success: true,
       user: { email: 'test@test.com', name: 'Test' }
     }).as('getUser');
@@ -20,7 +18,7 @@ describe('Конструктор бургера', () => {
       cy.wait('@getIngredients');
 
       cy.contains('Добавить').first().click();
-      cy.get('[class*="burger_constructor"]').should('exist');
+      cy.get('[data-testid="burger-constructor"]').should('exist');
       cy.contains('Краторная булка N-200i').should('exist');
     });
   });
@@ -31,7 +29,7 @@ describe('Конструктор бургера', () => {
       cy.wait('@getIngredients');
 
       cy.contains('Биокотлета из марсианской Магнолии').first().click();
-      cy.get('[class*="modal"]').should('be.visible');
+      cy.get('[data-testid="modal"]').should('be.visible');
       cy.contains('Детали ингредиента').should('exist');
     });
 
@@ -40,9 +38,9 @@ describe('Конструктор бургера', () => {
       cy.wait('@getIngredients');
 
       cy.contains('Биокотлета из марсианской Магнолии').first().click();
-      cy.get('[class*="modal"]').should('be.visible');
-      cy.get('[class*="modal"]').find('button[type="button"]').click();
-      cy.get('[class*="modal"]').should('not.exist');
+      cy.get('[data-testid="modal"]').should('be.visible');
+      cy.get('[data-testid="modal"]').find('button[type="button"]').click();
+      cy.get('[data-testid="modal"]').should('not.exist');
     });
 
     it('в модальном окне отображаются данные того ингредиента, по которому кликнули', () => {
@@ -50,7 +48,7 @@ describe('Конструктор бургера', () => {
       cy.wait('@getIngredients');
 
       cy.contains('Соус Spicy-X').first().click();
-      cy.get('[class*="modal"]').within(() => {
+      cy.get('[data-testid="modal"]').within(() => {
         cy.contains('Соус Spicy-X').should('exist');
         cy.contains('30').should('exist');
         cy.contains('20').should('exist');
@@ -66,17 +64,20 @@ describe('Конструктор бургера', () => {
       cy.wait('@getIngredients');
 
       cy.contains('Добавить').first().click();
-      cy.contains('Добавить').eq(1).click();
+      cy.contains('Биокотлета из марсианской Магнолии')
+        .parents('li')
+        .first()
+        .within(() => cy.contains('Добавить').click());
       cy.contains('Оформить заказ').click();
       cy.wait('@createOrder');
 
-      cy.get('[class*="modal"]').within(() => {
+      cy.get('[data-testid="modal"]').within(() => {
         cy.contains('12345').should('exist');
         cy.contains('идентификатор заказа').should('exist');
       });
 
       cy.get('body').click(0, 0);
-      cy.get('[class*="modal"]').should('not.exist');
+      cy.get('[data-testid="modal"]').should('not.exist');
       cy.contains('Выберите булки').should('exist');
 
       cy.clearAuthTokens();
