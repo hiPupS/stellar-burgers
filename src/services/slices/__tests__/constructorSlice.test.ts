@@ -5,7 +5,7 @@ import {
   setBun,
   clearConstructor
 } from '../constructorSlice';
-import { TIngredient } from '@utils-types';
+import { TConstructorIngredient, TIngredient } from '@utils-types';
 
 const mockBun: TIngredient = {
   _id: 'bun-1',
@@ -42,23 +42,38 @@ describe('constructorSlice: редьюсер конструктора бурге
   });
 
   it('при добавлении ингредиента он появляется в списке с полем id', () => {
-    const state = constructorReducer(undefined, addIngredient(mockMain));
+    const ingredientWithId: TConstructorIngredient = {
+      ...mockMain,
+      id: 'test-id-1'
+    };
+    const state = constructorReducer(
+      undefined,
+      addIngredient(ingredientWithId)
+    );
     expect(state.ingredients).toHaveLength(1);
     expect(state.ingredients[0]._id).toBe('main-1');
     expect(state.ingredients[0]).toHaveProperty('id');
-    expect(typeof state.ingredients[0].id).toBe('string');
+    expect(state.ingredients[0].id).toBe('test-id-1');
   });
 
   it('при добавлении нескольких ингредиентов все появляются в списке', () => {
-    let state = constructorReducer(undefined, addIngredient(mockMain));
-    state = constructorReducer(state, addIngredient(mockMain));
+    const ing1: TConstructorIngredient = { ...mockMain, id: 'id-1' };
+    const ing2: TConstructorIngredient = { ...mockMain, id: 'id-2' };
+    let state = constructorReducer(undefined, addIngredient(ing1));
+    state = constructorReducer(state, addIngredient(ing2));
     expect(state.ingredients).toHaveLength(2);
   });
 
   it('при удалении ингредиента по id он исчезает из списка', () => {
-    let state = constructorReducer(undefined, addIngredient(mockMain));
-    const idToRemove = state.ingredients[0].id;
-    state = constructorReducer(state, removeIngredient(idToRemove));
+    const ingredientWithId: TConstructorIngredient = {
+      ...mockMain,
+      id: 'id-to-remove'
+    };
+    let state = constructorReducer(
+      undefined,
+      addIngredient(ingredientWithId)
+    );
+    state = constructorReducer(state, removeIngredient('id-to-remove'));
     expect(state.ingredients).toHaveLength(0);
   });
 
@@ -68,8 +83,12 @@ describe('constructorSlice: редьюсер конструктора бурге
   });
 
   it('clearConstructor очищает булку и ингредиенты', () => {
+    const ingredientWithId: TConstructorIngredient = {
+      ...mockMain,
+      id: 'id-1'
+    };
     let state = constructorReducer(undefined, setBun(mockBun));
-    state = constructorReducer(state, addIngredient(mockMain));
+    state = constructorReducer(state, addIngredient(ingredientWithId));
     state = constructorReducer(state, clearConstructor());
     expect(state.bun).toBeNull();
     expect(state.ingredients).toHaveLength(0);

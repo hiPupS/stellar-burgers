@@ -1,6 +1,13 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { ConstructorPage, Feed, Profile, ProfileOrders } from '@pages';
+import {
+  ConstructorPage,
+  Feed,
+  Login,
+  Profile,
+  ProfileOrders,
+  Register
+} from '@pages';
 import { IngredientDetails } from '@components';
 import '../../index.css';
 import styles from './app.module.css';
@@ -68,6 +75,8 @@ const App = () => {
           }
         />
         <Route path='/feed' element={<Feed />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/profile/orders' element={<ProfileOrders />} />
       </Routes>

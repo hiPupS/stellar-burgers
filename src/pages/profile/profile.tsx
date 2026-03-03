@@ -1,17 +1,32 @@
 import { ProfileUI } from '@ui-pages';
-import { FC, SyntheticEvent, useState } from 'react';
+import { FC, SyntheticEvent, useState, useEffect } from 'react';
+import { getUserApi, updateUserApi } from '@api';
 
 export const Profile: FC = () => {
-  const user = {
-    name: '',
-    email: ''
-  };
-
+  const [user, setUser] = useState({ name: '', email: '' });
   const [formValue, setFormValue] = useState({
-    name: user.name,
-    email: user.email,
+    name: '',
+    email: '',
     password: ''
   });
+  const [updateUserError, setUpdateUserError] = useState<string | null>(null);
+
+  useEffect(() => {
+    getUserApi()
+      .then((res) => {
+        if (res.success && res.user) {
+          setUser(res.user);
+          setFormValue({
+            name: res.user.name,
+            email: res.user.email,
+            password: ''
+          });
+        }
+      })
+      .catch(() => {
+        setUpdateUserError('Не удалось загрузить данные пользователя');
+      });
+  }, []);
 
   const isFormChanged =
     formValue.name !== user?.name ||
@@ -20,6 +35,28 @@ export const Profile: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+    setUpdateUserError(null);
+    const payload: { name?: string; email?: string; password?: string } = {
+      name: formValue.name,
+      email: formValue.email
+    };
+    if (formValue.password) {
+      payload.password = formValue.password;
+    }
+    updateUserApi(payload)
+      .then((res) => {
+        if (res.success && res.user) {
+          setUser(res.user);
+          setFormValue({
+            name: res.user.name,
+            email: res.user.email,
+            password: ''
+          });
+        }
+      })
+      .catch((err) => {
+        setUpdateUserError(err?.message || 'Не удалось сохранить изменения');
+      });
   };
 
   const handleCancel = (e: SyntheticEvent) => {
@@ -29,6 +66,7 @@ export const Profile: FC = () => {
       email: user.email,
       password: ''
     });
+    setUpdateUserError(null);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +80,7 @@ export const Profile: FC = () => {
     <ProfileUI
       formValue={formValue}
       isFormChanged={isFormChanged}
+      updateUserError={updateUserError || undefined}
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}
       handleInputChange={handleInputChange}
